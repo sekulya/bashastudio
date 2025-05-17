@@ -20,6 +20,6 @@ app.post('/login', (req, res) => {
 // ▲▲▲ ABOVE OTHER ROUTES ▲▲▲
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Also accessible via http://3.36.111.90:${PORT}`);
+  console.log(`Also accessible via http://43.201.59.108:${PORT}`);
   console.log(`Server running on bashastudios.online:${PORT}`);
 });
