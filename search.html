@@ -11,134 +11,172 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Karla:wght@200;300&family=Mulish:wght@200;400&family=PT+Sans&family=Pacifico&family=Shizuru&display=swap"
       rel="stylesheet"
     />
-    <title>Search engine | basha studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <title>Search | bashastudio.online</title>
   </head>
   <body>
-    <!-- header---: on one side  hamburgur section  and  right side logo and help,login,cart    -->
+    <!-- Header Section -->
     <header>
-      <!-- header left side --- HAMBURGER section  -->
-      <div id="hambuger">
-        <!-- HAMBURGER icon image  -->
-        <img
-          src="https://icon-library.com/images/menu-icon-png-3-lines/menu-icon-png-3-lines-16.jpg"
-          alt=""
-          id="hamburgerIcon"
-        />
+      <!-- Mobile Navigation -->
+      <div id="hamburger">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
       </div>
 
-      <!-- header LOGO and LOGIN, CART section  -->
+      <!-- Logo and Navigation -->
       <div id="logohead">
-        <!-- ZARA LOGO image  -->
         <a href="./index.html">
-            <img
-              src="https://logodownload.org/wp-content/uploads/2014/05/zara-logo-1.png"
-              alt=""
-              id="zara_logo"
-            />
+          <img
+            src="https://via.placeholder.com/150x50?text=bashastudio.online"
+            alt="bashastudio.online logo"
+            id="main_logo"
+          />
         </a>
 
-        <!-- hearder LOGIN, HELP & CART  -->
-        <div id="ul">
+        <!-- User Navigation -->
+        <div id="user-nav">
           <ul>
-            <!-- <a href="./login.html">
-                <li class="log-help">LOG IN</li>
-            </a> -->
             <a href="./help.html">
-                <li class="log-help">HELP</li>
+              <li class="nav-item"><i class="far fa-question-circle"></i> HELP</li>
             </a>
             <a href="./shoppingBasket.html">
-                <li>CART</li>
+              <li class="nav-item"><i class="fas fa-shopping-bag"></i> CART</li>
             </a>
           </ul>
-       
         </div>
-     
       </div>
     </header>
 
-    <!-- MAIN container below HEADER section  -->
+    <!-- Main Content Container -->
     <div id="container">
       <div id="main">
-        <!-- search bar  -->
-        <input
-          type="text"
-          name=""
-          id="searchbar"
-          placeholder="ENTER SEARCH TERMS"
-        />
+        <!-- Search Bar -->
+        <div class="search-container">
+          <input
+            type="text"
+            id="searchbar"
+            placeholder="Search for products, styles, or categories..."
+            autocomplete="off"
+          />
+          <button id="searchButton"><i class="fas fa-search"></i></button>
+        </div>
 
-        <!-- TREND products below Search bar  -->
+        <!-- Trending Products -->
         <div id="trending_product">
-          <p>TRENDS</p>
-          <p onclick="shirts(event)">SHIRT MEN</p>
-          <p onclick="shoes(event)">SHOES</p>
-          <p onclick="womenAcc(event)">WOMEN ACCESSORIES</p>
-          <p onclick="womenjacket(event)">WOMEN JACKET</p>
-
+          <h3>POPULAR SEARCHES</h3>
+          <div class="trending-tags">
+            <span class="trending-tag" onclick="filterProducts('shirt')">Men's Shirts</span>
+            <span class="trending-tag" onclick="filterProducts('shoes')">Shoes</span>
+            <span class="trending-tag" onclick="filterProducts('accessories')">Women's Accessories</span>
+            <span class="trending-tag" onclick="filterProducts('jacket')">Women's Jackets</span>
+            <span class="trending-tag" onclick="filterProducts('dress')">Summer Dresses</span>
+            <span class="trending-tag" onclick="filterProducts('jeans')">Denim Jeans</span>
+          </div>
         </div>
       </div>
       
-    <!-- all products html  -->
-      <div id="searchProd" class="grid"></div>
+      <!-- Search Results Grid -->
+      <div id="searchResults">
+        <div id="all-products" class="product-grid">
+          <!-- Products will be dynamically inserted here -->
+        </div>
+        
+        <div id="filtered-products" class="product-grid none">
+          <!-- Filtered products will appear here -->
+        </div>
+      </div>
       
-      <div id="shirt-products" class="none grid">
-    
+      <!-- Recently Viewed Section -->
+      <div id="recently-viewed" class="none">
+        <h3>RECENTLY VIEWED</h3>
+        <div class="recent-items"></div>
       </div>
-      <div id="shoes-products" class="none grid">
 
-      </div>
-      <div id="womenAccessories-products" class="none grid">
-
-      </div>
-      <div id="women-jacket" class="none grid">
-
-      </div>
-        <!-- ABOUT section below trending products  -->
-        <div id="footer_section">
+      <!-- Footer Section -->
+      <div id="footer_section">
         <div id="about">
-          <!-- HEADINDS & CONTENT in about section  -->
           <div class="about_info">
-            <h4>HELP</h4>
-            <p>SHOP</p>
-            <p>PRODUCT</p>
-            <p>PAYMENT</p>
-            <p>SHIPPING</p>
-            <p>EXCHANGES AND RETURNS</p>
-            <p>SHOPS AND COMPANY</p>
-            <p>CLOTHES COLLECTION PROGRAMME</p>
-            <p>MY ACCOUNT</p>
+            <h4>CUSTOMER SERVICE</h4>
+            <a href="#"><p>Contact Us</p></a>
+            <a href="#"><p>FAQs</p></a>
+            <a href="#"><p>Shipping Information</p></a>
+            <a href="#"><p>Returns & Exchanges</p></a>
+            <a href="#"><p>Order Tracking</p></a>
+            <a href="#"><p>Size Guide</p></a>
           </div>
           <div class="about_info">
-            <h4>FOLLOW US</h4>
-            <p>NEWSLETTER</p>
-            <p>TIKTOK</p>
-            <p>INSTAGRAM</p>
-            <p>FACEBOOK</p>
-            <p>TWITTER</p>
-            <p>PINTEREST</p>
-            <p>YOUTUBE</p>
+            <h4>ABOUT US</h4>
+            <a href="#"><p>Our Story</p></a>
+            <a href="#"><p>Sustainability</p></a>
+            <a href="#"><p>Careers</p></a>
+            <a href="#"><p>Press</p></a>
           </div>
           <div class="about_info">
-            <h4>COMPANY</h4>
-            <p>ABOUT US</p>
-            <p>OFFICES</p>
-            <p>STORES</p>
-            <p>WORK WITH US</p>
+            <h4>CONNECT WITH US</h4>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-pinterest-p"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>Subscribe to our newsletter</p>
+            <div class="newsletter">
+              <input type="email" placeholder="Your email address">
+              <button>SUBSCRIBE</button>
+            </div>
           </div>
           <div class="about_info">
-            <h4>POLICIES</h4>
-            <p>PRIVACY POLICY</p>
-            <p>PURCHASE CONDITIONS</p>
-            <p>COOKIES SETTINGS</p>
+            <h4>LEGAL</h4>
+            <a href="#"><p>Terms & Conditions</p></a>
+            <a href="#"><p>Privacy Policy</p></a>
+            <a href="#"><p>Cookie Policy</p></a>
+            <a href="#"><p>Accessibility</p></a>
           </div>
         </div>
         <footer>
           <div id="footer_left_box">
-            <p>&copy; ALL RIGHTS RESERVED</p>
+            <p>&copy; 2023 bashastudio.online. ALL RIGHTS RESERVED</p>
+          </div>
+          <div id="payment-methods">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-amex"></i>
+            <i class="fab fa-cc-paypal"></i>
           </div>
         </footer>
       </div>
     </div>
+
+    <script src="./scripts/search.js"></script>
+    <script>
+      // Enhanced search functionality
+      document.getElementById('searchButton').addEventListener('click', performSearch);
+      document.getElementById('searchbar').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          performSearch();
+        }
+      });
+
+      function performSearch() {
+        const searchTerm = document.getElementById('searchbar').value.trim();
+        if (searchTerm) {
+          // Implement search logic here
+          console.log(`Searching for: ${searchTerm}`);
+          // This would typically call an API: fetch(`https://api.bashastudio.online/search?q=${searchTerm}`)
+        }
+      }
+
+      function filterProducts(category) {
+        // Implement category filtering
+        console.log(`Filtering by: ${category}`);
+        // This would show/hide relevant product sections
+      }
+
+      // Mobile menu toggle
+      document.getElementById('hamburgerIcon').addEventListener('click', function() {
+        // Implement mobile menu toggle
+        console.log('Mobile menu toggled');
+      });
+    </script>
   </body>
 </html>
-<script src="./scripts/search.js"></script>
