@@ -21,12 +21,12 @@ function login(event) {
 
 async function loginUser(data) {
     try {
-        let res = await fetch("https://bashastudios.online/api/login", {  // Added https:// and /api/login
+        let res = await fetch("https://bashastudio.online/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),  // Stringify the data
+            body: JSON.stringify(data),
         });
 
         if (!res.ok) {
@@ -50,6 +50,6 @@ async function loginUser(data) {
     } catch (error) {
         console.error("Login error:", error);
         alert("Login failed. Please try again.");
-        throw error; // Re-throw for the calling function to handle
+        throw error;
     }
 }
