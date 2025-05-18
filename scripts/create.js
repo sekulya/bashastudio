@@ -3,7 +3,6 @@ let token = JSON.parse(localStorage.getItem("token"));
 if (token) {
   alert("You are already logged in ✌");
   window.location.href = "./index.html";
-
 }
 
 function signUp(event) {
@@ -29,7 +28,7 @@ function signUp(event) {
 }
 
 async function register(data) {
-  let res = await fetch("https://zara-server.herokuapp.com/register", {
+  let res = await fetch("https://bashastudio.online/api/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -43,6 +42,8 @@ async function register(data) {
     alert(response.message);
     return;
   }
+}
+
 
   alert("Registered Successfully 👍");
 
