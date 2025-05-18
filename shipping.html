@@ -4,72 +4,146 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Process Order - Delivery</title>
+    <title>Delivery Options | bashastudio.online</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Karla:wght@200;300&family=Mulish:wght@200;400&family=PT+Sans&family=Pacifico&family=Shizuru&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="./styles/navbar.css" />
     <link rel="stylesheet" href="./styles/shipping.css" />
     <link rel="stylesheet" href="./styles/footer.css" />
   </head>
   <body>
-    <!-- navbar -->
+    <!-- Navigation -->
     <nav id="navbar"></nav>
 
-    <!-- body -->
-    <div id="bottom">
-      <h2>CHOOSE YOUR SHIPPING METHOD</h2>
-      <h3>IN-STORE PICK UP</h3>
-      <div id="store">
-        <p>
-          <input type="radio" name="delopt" />MONDAY 24, JANUARY - WEDNESDAY 26,
-          JANUARY
-        </p>
-        <p>FREE</p>
+    <!-- Delivery Options -->
+    <div id="delivery-container">
+      <h2><i class="fas fa-truck"></i> CHOOSE YOUR SHIPPING METHOD</h2>
+      
+      <!-- In-Store Pickup -->
+      <div class="delivery-option">
+        <div class="option-header">
+          <h3><i class="fas fa-store"></i> IN-STORE PICK UP</h3>
+        </div>
+        <div class="option-details">
+          <label class="radio-container">
+            <input type="radio" name="deliveryOption" value="store-pickup" checked>
+            <span class="checkmark"></span>
+            <div class="option-info">
+              <p>Ready for pickup: <strong>Monday 24, January - Wednesday 26, January</strong></p>
+              <p class="price">FREE</p>
+            </div>
+          </label>
+          <p class="store-location"><i class="fas fa-map-marker-alt"></i> Nearest store: <span id="nearest-store">Downtown Flagship</span></p>
+          <button class="change-store">Change Store</button>
+        </div>
       </div>
-      <h3>HOME DELIVERY</h3>
-      <div id="home">
-        <p>WEDNESDAY 26, JANUARY - MONDAY 31, JANUARY <span>290.00</span></p>
-        <input type="radio" name="delopt" />
-        <div>
-          <p style="color: rgb(170, 169, 169)">
-            TRANSPORT RESTRICTIONS MAY APPLY TO SOME AREAS
-          </p>
-          <p style="color: rgb(170, 169, 169)">
-            FREE SHIPPING FOR ORDERS OVER 299
-          </p>
-          <a href="" style="color: rgb(121, 120, 120)">DELIVERY TIME FRAMES</a>
+
+      <!-- Home Delivery -->
+      <div class="delivery-option">
+        <div class="option-header">
+          <h3><i class="fas fa-home"></i> HOME DELIVERY</h3>
+        </div>
+        <div class="option-details">
+          <label class="radio-container">
+            <input type="radio" name="deliveryOption" value="home-delivery">
+            <span class="checkmark"></span>
+            <div class="option-info">
+              <p>Estimated delivery: <strong>Wednesday 26, January - Monday 31, January</strong></p>
+              <p class="price">₹290.00</p>
+            </div>
+          </label>
+          <div class="delivery-notice">
+            <p><i class="fas fa-info-circle"></i> Transport restrictions may apply to some areas</p>
+            <p><i class="fas fa-tag"></i> FREE shipping for orders over ₹299</p>
+            <a href="#" class="delivery-link">View delivery time frames <i class="fas fa-chevron-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Express Delivery -->
+      <div class="delivery-option">
+        <div class="option-header">
+          <h3><i class="fas fa-bolt"></i> EXPRESS DELIVERY</h3>
+        </div>
+        <div class="option-details">
+          <label class="radio-container">
+            <input type="radio" name="deliveryOption" value="express-delivery">
+            <span class="checkmark"></span>
+            <div class="option-info">
+              <p>Guaranteed delivery: <strong>Next business day</strong></p>
+              <p class="price">₹490.00</p>
+            </div>
+          </label>
+          <div class="delivery-notice">
+            <p><i class="fas fa-clock"></i> Order before 12PM for same-day dispatch</p>
+            <p><i class="fas fa-map-marked-alt"></i> Available in metro areas only</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div id="cards">
-      <div>
-        <div id="price">TOTAL : <span>2,290.00</span></div>
-        <button onclick="window.location.href = 'payment.html' ">
-          CONTINUE
+    <!-- Order Summary -->
+    <div id="order-summary">
+      <div class="summary-content">
+        <div class="total-price">
+          <p>ORDER TOTAL: <span id="order-total">2,290.00</span></p>
+          <p class="shipping-notice">Shipping cost will be calculated based on your selection</p>
+        </div>
+        <button id="continue-btn" class="primary-btn">
+          CONTINUE TO PAYMENT <i class="fas fa-arrow-right"></i>
         </button>
       </div>
     </div>
 
+    <!-- Footer -->
     <div id="footer"></div>
+
+    <script type="module">
+      // Load order total from localStorage
+      let total = JSON.parse(localStorage.getItem("total")) || "2,290.00";
+      document.getElementById("order-total").textContent = total;
+
+      // Import and render components
+      import navbar from "./components/navbar.js";
+      import { footers } from "./components/footer.js";
+      
+      document.getElementById("navbar").innerHTML = navbar();
+      document.getElementById("footer").innerHTML = footers();
+
+      // Delivery option selection
+      document.querySelectorAll('input[name="deliveryOption"]').forEach(option => {
+        option.addEventListener('change', function() {
+          updateShippingCost(this.value);
+        });
+      });
+
+      function updateShippingCost(option) {
+        let shippingCost = 0;
+        switch(option) {
+          case 'home-delivery':
+            shippingCost = 290;
+            break;
+          case 'express-delivery':
+            shippingCost = 490;
+            break;
+          default:
+            shippingCost = 0;
+        }
+        
+        // Update UI with shipping cost
+        console.log(`Selected shipping cost: ₹${shippingCost}`);
+        // Here you would update the order total with shipping
+      }
+
+      // Continue button functionality
+      document.getElementById('continue-btn').addEventListener('click', function() {
+        const selectedOption = document.querySelector('input[name="deliveryOption"]:checked').value;
+        localStorage.setItem('deliveryMethod', selectedOption);
+        window.location.href = 'payment.html';
+      });
+    </script>
   </body>
 </html>
-
-<script type="module">
-  let total = JSON.parse(localStorage.getItem("total"));
-  document.getElementById("price").innerHTML = `TOTAL : <span>${total}</span>`;
-
-  import navbar from "./components/navbar.js";
-  let nav = document.getElementById("navbar");
-  nav.innerHTML = navbar();
-
-  import { footers } from "./components/footer.js";
-  let footer = document.getElementById("footer");
-  footer.innerHTML = footers();
-
-
-</script>
-
-<script src="./scripts/shipping.js"></script>
