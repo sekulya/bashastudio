@@ -1,24 +1,21 @@
 async function getdata() {
   try {
-    
-  let res = await fetch(`https://zara-server.herokuapp.com/products`);
+    let res = await fetch(`https://bashastudio.online/api/products`);
 
-  let products = await res.json();
+    let products = await res.json();
 
-  console.log("Products : ", products);
+    console.log("Products : ", products);
 
-  let mensShirt = products.filter((data) => data.section === "mensShirt");
-  let mensShoes = products.filter((data) => data.section === "mensShoes");
-  let womenAccessories = products.filter(
-    (data) => data.section === "womenAccessories"
-  );
-  let womenJacket = products.filter((data) => data.section === "womenJacket");
+    let mensShirt = products.filter((data) => data.section === "mensShirt");
+    let mensShoes = products.filter((data) => data.section === "mensShoes");
+    let womenAccessories = products.filter(
+      (data) => data.section === "womenAccessories"
+    );
+    let womenJacket = products.filter((data) => data.section === "womenJacket");
 
-  let section = [mensShoes, mensShirt, womenAccessories, womenJacket];
+    let section = [mensShoes, mensShirt, womenAccessories, womenJacket];
 
-  section.forEach((elem) => appenddata(elem));
-
-  
+    section.forEach((elem) => appenddata(elem));
 
     console.log("data:", data);
   } catch (err) {
@@ -43,7 +40,6 @@ function appenddata(arr) {
     let buy_btn = document.createElement("button");
     buy_btn.textContent = "Buy Now";
     aTag.innerHTML = "<button>Buy Now</button>";
-    // buy_btn.setAttribute("id","buy_btn1")
 
     let discount = document.createElement("p");
     discount.textContent = elem.prod_discount;
