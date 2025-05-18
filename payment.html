@@ -4,60 +4,97 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Process Order - Payment</title>
+    <title>Payment Method | bashastudio.online</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Karla:wght@200;300&family=Mulish:wght@200;400&family=PT+Sans&family=Pacifico&family=Shizuru&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles/navbar.css">
     <link rel="stylesheet" href="./styles/payment.css">
-    <link rel="stylesheet" href="./styles/footer.css" />
+    <link rel="stylesheet" href="./styles/footer.css">
 </head>
 <body>
     <!-- navbar -->
     <nav id="navbar"></nav>
 
-    <!-- body -->
+    <!-- payment selection -->
     <div id="bottom">
         <h2>CHOOSE A PAYMENT METHOD</h2>
-        <p>Please note that only cards that use 3D Secure are accepted. Contact your bank to activate it or for further instructions.</p> 
+        <p>For secure transactions, bashastudio.online only accepts cards with 3D Secure verification. Contact your bank to activate this feature.</p> 
     </div>
 
     <div id="boxes">
-        <div id="visa">
-            <img src="https://static.zara.net/static/images/payment/payment/icon-payment-visa.svg" alt="">
+        <div class="payment-option" id="visa" data-method="visa">
+            <img src="https://static.zara.net/static/images/payment/payment/icon-payment-visa.svg" alt="Visa">
             <p>VISA</p>
         </div>
-        <div>
-            <img src="https://static.zara.net/static/images/payment/payment/icon-payment-mastercard.svg" alt="">
+        <div class="payment-option" id="mastercard" data-method="mastercard">
+            <img src="https://static.zara.net/static/images/payment/payment/icon-payment-mastercard.svg" alt="Mastercard">
             <p>MASTERCARD</p>
         </div>
+        <div class="payment-option" id="paypal" data-method="paypal">
+            <img src="https://static.zara.net/static/images/payment/payment/icon-payment-paypal.svg" alt="PayPal">
+            <p>PAYPAL</p>
+        </div>
+    </div>
 
     <div id="card">
         <div>
-            <div id="price">TOTAL :  <span>2,290.00</span></div>
-            <button onclick="window.location.href = 'cardPayment.html' ">CONTINUE</button>
+            <div id="price">TOTAL: <span>2,290.00</span></div>
+            <button id="continue-btn" disabled>CONTINUE</button>
         </div>
     </div>
 
     <div id="footer"></div>
+
+    <script type="module">
+        // Import components
+        import navbar from "./components/navbar.js";
+        import { footers } from "./components/footer.js";
+        
+        // Initialize components
+        document.getElementById("navbar").innerHTML = navbar();
+        document.getElementById("footer").innerHTML = footers();
+
+        // Get total from localStorage
+        let total = JSON.parse(localStorage.getItem('total')) || '2,290.00';
+        document.getElementById('price').innerHTML = `TOTAL: <span>${total}</span>`;
+
+        // Payment method selection
+        let selectedMethod = null;
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const continueBtn = document.getElementById('continue-btn');
+
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                paymentOptions.forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to selected option
+                this.classList.add('active');
+                selectedMethod = this.dataset.method;
+                
+                // Enable continue button
+                continueBtn.disabled = false;
+                continueBtn.style.cursor = 'pointer';
+                continueBtn.style.opacity = '1';
+            });
+        });
+
+        // Continue button handler
+        continueBtn.addEventListener('click', function() {
+            if (!selectedMethod) return;
+            
+            // Store payment method in localStorage
+            localStorage.setItem('paymentMethod', selectedMethod);
+            
+            // Redirect based on selected method
+            if (selectedMethod === 'paypal') {
+                window.location.href = 'paypalPayment.html';
+            } else {
+                window.location.href = 'cardPayment.html';
+            }
+        });
+    </script>
 </body>
 </html>
-
-<script type="module">
-    let total = JSON.parse(localStorage.getItem('total'))
-document.getElementById('price').innerHTML = `TOTAL : <span>${total}</span>`
-
-    import navbar from "./components/navbar.js";
-    let nav = document.getElementById("navbar");
-    nav.innerHTML = navbar();
-
-    import { footers } from "./components/footer.js";
-    let footer = document.getElementById("footer");
-    footer.innerHTML = footers();
-
-    let visa = document.getElementById("visa")
-    visa.addEventListener("click",function(){
-        visa.style.border = "2px solid black";
-    })
-</script>
