@@ -4,61 +4,188 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shopping basket - ZARA India</title>
+    <title>Shopping Basket | bashastudio.online</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Karla:wght@200;300&family=Mulish:wght@200;400&family=PT+Sans&family=Pacifico&family=Shizuru&display=swap"
       rel="stylesheet"
     />
-    <script
-      src="https://kit.fontawesome.com/6fa3bd69d6.js"
-      crossorigin="anonymous"
-    ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="./styles/shoppingBasket.css" />
     <link rel="stylesheet" href="./styles/footer.css" />
   </head>
   <body>
-    <nav>
-      <div id="logo">
-        <a href="./index.html"><img
-          src="https://logodownload.org/wp-content/uploads/2014/05/zara-logo-1.png"
-          alt="zaralogo"
-        /></a>
-        
+    <!-- Navigation -->
+    <nav class="basket-nav">
+      <div class="logo-container">
+        <a href="./index.html">
+          <img 
+            src="https://via.placeholder.com/150x50?text=bashastudio.online" 
+            alt="bashastudio.online logo"
+            class="site-logo"
+          />
+        </a>
       </div>
-      <div id="help">
-        <!-- <a href="./login.html"> <div>LOGIN</div></a> -->
-       <a href="./zarahelp.html"><div>HELP</div></a>
-        
+      <div class="help-link">
+        <a href="./help.html">
+          <i class="far fa-question-circle"></i> HELP
+        </a>
       </div>
     </nav>
 
-    <!-- <div id="items">
-        <p>YOUR BASKET IS EMPTY</p>
-    </div> -->
-
-    <div id="bag">
-      <h3>SHOPPING BAG</h3>
-      <p><span id="cartLen"> </span> ITEM</p>
+    <!-- Basket Header -->
+    <div class="basket-header">
+      <h1><i class="fas fa-shopping-bag"></i> SHOPPING BAG</h1>
+      <p class="item-count"><span id="cartLen">0</span> ITEM(S)</p>
     </div>
-    <div id="items"></div>
 
-    <div id="card">
-      <div>
-        <div id="price">TOTAL : <span id="total">0</span></div>
-        <button onclick="proceed()">
-          CONTINUE
+    <!-- Basket Items -->
+    <div id="basket-items">
+      <!-- Empty Basket Message -->
+      <div class="empty-basket" id="emptyBasket">
+        <i class="fas fa-shopping-bag fa-3x"></i>
+        <h2>YOUR BASKET IS EMPTY</h2>
+        <p>Start shopping to add items to your basket</p>
+        <a href="./index.html" class="shop-btn">
+          <i class="fas fa-arrow-left"></i> CONTINUE SHOPPING
+        </a>
+      </div>
+
+      <!-- Basket Items will be dynamically inserted here -->
+      <div id="items" class="basket-contents"></div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary" id="orderSummary">
+      <div class="summary-card">
+        <h3>ORDER SUMMARY</h3>
+        
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="subtotal">₹0.00</span>
+        </div>
+        
+        <div class="summary-row">
+          <span>Estimated Shipping</span>
+          <span>Calculated at checkout</span>
+        </div>
+        
+        <div class="summary-row total-row">
+          <span>TOTAL</span>
+          <span id="total">₹0.00</span>
+        </div>
+        
+        <button class="checkout-btn" onclick="proceedToCheckout()">
+          PROCEED TO CHECKOUT <i class="fas fa-arrow-right"></i>
         </button>
+        
+        <div class="payment-methods">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-cc-paypal"></i>
+        </div>
+        
+        <a href="./index.html" class="continue-shopping">
+          <i class="fas fa-arrow-left"></i> CONTINUE SHOPPING
+        </a>
       </div>
     </div>
 
+    <!-- Footer -->
     <div id="footer"></div>
+
+    <script type="module">
+      import { footers } from "./components/footer.js";
+      let footer = document.getElementById("footer");
+      footer.innerHTML = footers();
+
+      // Load cart items from localStorage
+      function loadCartItems() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const itemsContainer = document.getElementById('items');
+        const emptyBasket = document.getElementById('emptyBasket');
+        const orderSummary = document.getElementById('orderSummary');
+        
+        if (cart.length === 0) {
+          emptyBasket.style.display = 'flex';
+          orderSummary.style.display = 'none';
+          document.getElementById('cartLen').textContent = '0';
+          return;
+        }
+        
+        emptyBasket.style.display = 'none';
+        orderSummary.style.display = 'block';
+        document.getElementById('cartLen').textContent = cart.length;
+        
+        // Calculate total
+        let subtotal = 0;
+        itemsContainer.innerHTML = '';
+        
+        cart.forEach((item, index) => {
+          subtotal += item.price * item.quantity;
+          
+          const itemElement = document.createElement('div');
+          itemElement.className = 'basket-item';
+          itemElement.innerHTML = `
+            <div class="item-image">
+              <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="item-details">
+              <h3>${item.name}</h3>
+              <p>${item.description}</p>
+              <div class="item-options">
+                <div class="quantity-selector">
+                  <button onclick="updateQuantity(${index}, -1)">-</button>
+                  <span>${item.quantity}</span>
+                  <button onclick="updateQuantity(${index}, 1)">+</button>
+                </div>
+                <span class="item-price">₹${(item.price * item.quantity).toFixed(2)}</span>
+              </div>
+              <button class="remove-item" onclick="removeItem(${index})">
+                <i class="fas fa-trash-alt"></i> REMOVE
+              </button>
+            </div>
+          `;
+          itemsContainer.appendChild(itemElement);
+        });
+        
+        document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+        document.getElementById('total').textContent = `₹${subtotal.toFixed(2)}`;
+      }
+      
+      // Update item quantity
+      function updateQuantity(index, change) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart[index].quantity += change;
+        
+        if (cart[index].quantity < 1) {
+          cart.splice(index, 1);
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCartItems();
+      }
+      
+      // Remove item from cart
+      function removeItem(index) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCartItems();
+      }
+      
+      // Proceed to checkout
+      function proceedToCheckout() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (cart.length > 0) {
+          window.location.href = './checkout.html';
+        } else {
+          alert('Your basket is empty. Please add items before checkout.');
+        }
+      }
+      
+      // Initialize the page
+      loadCartItems();
+    </script>
   </body>
 </html>
-
-<script type="module">
-  import { footers } from "./components/footer.js";
-  let footer = document.getElementById("footer");
-  footer.innerHTML = footers();
-</script>
-
-<script src="./scripts/shoppingBasket.js"></script>
