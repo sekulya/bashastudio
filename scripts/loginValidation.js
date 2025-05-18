@@ -2,20 +2,18 @@ let token = JSON.parse(localStorage.getItem("token"));
 
 if (token) {
   let res = prompt(
-    "Do you want to logout?\nType 'yes' to logout else press cancel to continue"
+    "You are already logged in.\nType 'yes' to logout, or press Cancel to stay logged in."
   );
 
-  if (!res) {
+  if (res === null) {
+    // User pressed cancel
+    window.location.href = "./index.html";
+  } else {
+    res = res.trim().toLowerCase();
+    if (res === "yes") {
+      localStorage.removeItem("token");
+      alert("You have been logged out.");
+    }
     window.location.href = "./index.html";
   }
-  res = res.trim();
-  if (res === "") {
-    window.location.href = "./index.html";
-    console.log("here");
-  }
-  if (res.toLowerCase() === "yes") {
-    localStorage.removeItem("token");
-    window.location.href = "./index.html";
-  }
-  window.location.href = "./index.html";
 }
